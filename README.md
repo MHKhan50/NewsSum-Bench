@@ -3,24 +3,24 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23264727.svg)](https://doi.org/10.5281/zenodo.23264727)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-An end-to-end research framework and benchmark evaluating state-of-the-art Transformer models for abstractive text summarization on news datasets[cite: 16].
+An end-to-end research framework and benchmark evaluating state-of-the-art Transformer models for abstractive text summarization on news datasets.
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
-Abstractive text summarization generates concise, coherent, and contextual summaries of lengthy documents[cite: 16]. This repository benchmarks multiple pre-trained sequence-to-sequence and encoder-decoder models (**T5-base, BART-base, PEGASUS, mT5-base, and BERTsum**) on news data[cite: 8, 16].
+Abstractive text summarization generates concise, coherent, and contextual summaries of lengthy documents. This repository benchmarks multiple pre-trained sequence-to-sequence and encoder-decoder models (**T5-base**, **BART-base**, **PEGASUS**, **mT5-base**, and **BERTsum**) on news data.
 
 ### Key Highlights & Architecture
 
 * **Multi-Model Fine-Tuning Pipeline:** Standardized training workflow using Hugging Face `Seq2SeqTrainer` across diverse transformer backbones.
-* **Data Processing & Cleaning:** Custom preprocessing pipeline for sentence tokenization, length verification, and cleaning to handle maximum context sizes[cite: 8].
-* **Quantitative Evaluation:** Rigorous ROUGE metric scoring (`ROUGE-1`, `ROUGE-2`, `ROUGE-L`, and `ROUGE-Lsum`) across test splits[cite: 8].
-* **Interactive Prototype:** Web interface built with Streamlit for real-time article summarization and qualitative human evaluation[cite: 8].
+* **Data Processing & Cleaning:** Custom preprocessing pipeline for sentence tokenization, length verification, and cleaning to handle maximum context sizes.
+* **Quantitative Evaluation:** Rigorous ROUGE metric scoring (`ROUGE-1`, `ROUGE-2`, `ROUGE-L`, and `ROUGE-Lsum`) across test splits.
+* **Interactive Prototype:** Web interface built with Streamlit for real-time article summarization and qualitative human evaluation.
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 NewsSum-Bench/
@@ -40,17 +40,3 @@ NewsSum-Bench/
 ├── README.md
 ├── LICENSE                     # MIT License
 └── requirements.txt            # Python dependencies
-
-git clone [https://github.com/MHKhan50/NewsSum-Bench.git](https://github.com/MHKhan50/NewsSum-Bench.git)
-cd NewsSum-Bench
-pip install -r requirements.txt
-streamlit run src/app.py
-@software{Hussain_NewsSum_Bench_2026,
-  author = {Hussain, Muzammal},
-  title = {NewsSum-Bench: Comparative Benchmarking of Abstractive Text Summarization using Transformer Architectures},
-  year = {2026},
-  publisher = {Zenodo},
-  doi = {10.5281/zenodo.23264727},
-  url = {[https://doi.org/10.5281/zenodo.23264727](https://doi.org/10.5281/zenodo.23264727)}
-}
-
