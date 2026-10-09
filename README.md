@@ -40,3 +40,17 @@ NewsSum-Bench/
 ├── README.md
 ├── LICENSE                     # MIT License
 └── requirements.txt            # Python dependencies
+
+git clone [https://github.com/MHKhan50/NewsSum-Bench.git](https://github.com/MHKhan50/NewsSum-Bench.git)
+cd NewsSum-Bench
+pip install -r requirements.txt
+streamlit run src/app.py
+@software{Hussain_NewsSum_Bench_2026,
+  author = {Hussain, Muzammal},
+  title = {NewsSum-Bench: Comparative Benchmarking of Abstractive Text Summarization using Transformer Architectures},
+  year = {2026},
+  publisher = {Zenodo},
+  doi = {10.5281/zenodo.23264727},
+  url = {[https://doi.org/10.5281/zenodo.23264727](https://doi.org/10.5281/zenodo.23264727)}
+}
+
