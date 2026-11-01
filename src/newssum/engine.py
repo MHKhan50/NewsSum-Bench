@@ -62,7 +62,11 @@ def load(spec: ModelSpec, train: bool):
         dtype = torch.float16 if dev.type == "cuda" else torch.float32
         model = _from_pretrained(AutoModelForCausalLM, spec.hf_id, dtype)
     else:
-        model = _from_pretrained(AutoModelForSeq2SeqLM, spec.hf_id)
+        # Recent transformers load weights in the checkpoint's dtype; some hub
+        # checkpoints (e.g. facebook/bart-large) are stored in fp16, which cannot
+        # be trained with a gradient scaler. Encoder-decoders are always kept in fp32
+        # and use fp16 only through autocast.
+        model = _from_pretrained(AutoModelForSeq2SeqLM, spec.hf_id, torch.float32)
     if len(tok) > model.get_input_embeddings().num_embeddings:  # only tiny test models
         model.resize_token_embeddings(len(tok))
     if train and spec.grad_ckpt:
