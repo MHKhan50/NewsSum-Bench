@@ -55,3 +55,14 @@ def test_prepare_baselines_and_report(bbc_root, tmp_path):
     row = tables["main"].set_index("system").loc["bart-base"]
     assert row["seeds"] == 2 and row["rougeLsum_sd"] > 0
     assert (tmp_path / "results" / "figures" / "rouge_lsum_by_system.png").exists()
+
+
+def test_oom_retry_halves_batch(tmp_path):
+    from newssum.runner import _is_oom, _smaller_batch
+    j = Job("flan-t5-base")
+    run_dir(tmp_path, j).mkdir(parents=True)
+    first = _smaller_batch(tmp_path, j, {})
+    assert first == {"batch_size": 2, "grad_accum": 4, "eval_batch": 4}
+    assert json.loads((run_dir(tmp_path, j) / "overrides.json").read_text()) == first
+    assert _smaller_batch(tmp_path, j, {"batch_size": 1, "grad_accum": 8, "eval_batch": 1}) is None
+    assert _is_oom(RuntimeError("CUDA out of memory. Tried to allocate 52.00 MiB"))

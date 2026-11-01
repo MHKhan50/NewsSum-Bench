@@ -141,7 +141,7 @@ def target_words(articles, ratio: float) -> list[int]:
 # ---------------------------------------------------------------- one job
 
 def run_job(out: Path, job: Job, deadline: float, smoke: bool = False, save_models: bool = True,
-            hf_overrides: dict | None = None, log=print) -> None:
+            hf_overrides: dict | None = None, log=print, extra: dict | None = None) -> None:
     from . import engine
     from .metrics import score_predictions
 
@@ -149,6 +149,7 @@ def run_job(out: Path, job: Job, deadline: float, smoke: bool = False, save_mode
     overrides = dict(SMOKE_OVERRIDES) if smoke else {}
     if hf_overrides and job.model in hf_overrides:
         overrides["hf_id"] = hf_overrides[job.model]
+    overrides.update(extra or {})
     spec = get_spec(job.model, **overrides)
     d = run_dir(out, job)
     d.mkdir(parents=True, exist_ok=True)
@@ -195,11 +196,35 @@ def run_job(out: Path, job: Job, deadline: float, smoke: bool = False, save_mode
     log(f"[{job.name}] done: ROUGE-1 {result['mean']['rouge1']:.2f} ROUGE-2 {result['mean']['rouge2']:.2f} "
         f"ROUGE-Lsum {result['mean']['rougeLsum']:.2f} ({(time.time() - t0) / 60:.1f} min)")
     del model
+    _free_gpu()
+
+
+def _free_gpu() -> None:
+    import gc
+    gc.collect()
     try:
         import torch
-        torch.cuda.empty_cache()
-    except Exception:
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+    except ImportError:
         pass
+
+
+def _is_oom(exc: BaseException) -> bool:
+    return "out of memory" in str(exc).lower()
+
+
+def _smaller_batch(out: Path, job: Job, current: dict) -> dict | None:
+    """Halve the micro-batch and double accumulation (same effective batch)."""
+    spec = get_spec(job.model)
+    bs = current.get("batch_size", spec.batch_size)
+    eb = current.get("eval_batch", spec.eval_batch)
+    if bs <= 1 and eb <= 1:
+        return None
+    new = {"batch_size": max(1, bs // 2), "grad_accum": current.get("grad_accum", spec.grad_accum) * (2 if bs > 1 else 1),
+           "eval_batch": max(1, eb // 2)}
+    (run_dir(out, job) / "overrides.json").write_text(json.dumps(new))
+    return new
 
 
 def _versions() -> dict:
@@ -239,17 +264,32 @@ def worker(out: Path, jobs: list[Job], deadline: float, worker_id: str, smoke: b
             break
         if not claim(out, job, worker_id):
             continue
-        try:
-            run_job(out, job, deadline, smoke, save_models, hf_overrides, log)
-        except DeadlineReached:
-            log(f"[{job.name}] stopped at the time limit; it will resume in the next session")
-            release(out, job)
+        ov_path = run_dir(out, job) / "overrides.json"
+        extra = json.loads(ov_path.read_text()) if ov_path.exists() else {}
+        stop = False
+        while True:
+            failure = None
+            try:
+                run_job(out, job, deadline, smoke, save_models, hf_overrides, log, extra)
+            except DeadlineReached:
+                log(f"[{job.name}] stopped at the time limit; it will resume in the next session")
+                stop = True
+            except Exception as exc:
+                failure = (_is_oom(exc), traceback.format_exc())
+            _free_gpu()  # after the except block, so the traceback no longer holds GPU tensors
+            if failure:
+                oom, err = failure
+                smaller = _smaller_batch(out, job, extra) if oom else None
+                if smaller:
+                    log(f"[{job.name}] out of GPU memory; retrying with {smaller}")
+                    extra = smaller
+                    continue
+                (run_dir(out, job) / "error.txt").write_text(err)
+                log(f"[{job.name}] FAILED\n{err}")
             break
-        except Exception:
-            err = traceback.format_exc()
-            (run_dir(out, job) / "error.txt").write_text(err)
-            log(f"[{job.name}] FAILED\n{err}")
         release(out, job)
+        if stop:
+            break
     log("worker finished")
 
 
@@ -277,7 +317,8 @@ def launch(out: str | Path, jobs: list[Job], hours: float, n_gpus: int | None = 
     (out / "logs" / "jobs.json").write_text(json.dumps(cfg))
     procs, logs = [], []
     for g in range(n_gpus):
-        env = dict(os.environ, CUDA_VISIBLE_DEVICES=str(g), TOKENIZERS_PARALLELISM="false")
+        env = dict(os.environ, CUDA_VISIBLE_DEVICES=str(g), TOKENIZERS_PARALLELISM="false",
+                   PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True")
         lf = open(out / "logs" / f"worker{g}.log", "a")
         procs.append(subprocess.Popen([sys.executable, "-m", "newssum.runner", "--out", str(out),
                                        "--worker-id", f"gpu{g}"], env=env, stdout=lf, stderr=subprocess.STDOUT))

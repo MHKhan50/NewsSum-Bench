@@ -73,6 +73,7 @@ def load(spec: ModelSpec, train: bool):
         model.config.use_cache = False
     if spec.lora:
         from peft import LoraConfig, get_peft_model
+        _skip_old_torchao()
         cfg = LoraConfig(task_type="CAUSAL_LM", r=16, lora_alpha=32, lora_dropout=0.05,
                          target_modules="all-linear")
         model = get_peft_model(model, cfg)
@@ -97,6 +98,19 @@ def fit_lengths(spec: ModelSpec, model) -> ModelSpec:
         return replace(spec, max_source=min(spec.max_source, limit), max_target=min(spec.max_target, limit))
     room = max(16, limit - spec.max_target - 128)  # prompt template + summary must fit
     return replace(spec, max_source=min(spec.max_source, room))
+
+
+def _skip_old_torchao() -> None:
+    """Some images ship a torchao version that recent PEFT rejects with an
+    ImportError even though LoRA on plain nn.Linear layers never uses it."""
+    try:
+        from peft.import_utils import is_torchao_available
+        is_torchao_available()
+    except ImportError:
+        import peft.tuners.lora.torchao as tao
+        tao.is_torchao_available = lambda: False
+    except Exception:
+        pass
 
 
 # ---------------------------------------------------------------- prompts and encoding
