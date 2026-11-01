@@ -17,7 +17,7 @@ train = ["torch>=2.3", "transformers>=4.45", "peft>=0.12", "sentencepiece", "pro
 dev = ["pytest"]
 
 [project.urls]
-Repository = "https://github.com/MHKhan50/news-summarisation"
+Repository = "https://github.com/MHKhan50/NewsSum-Bench"
 
 [tool.setuptools.packages.find]
 where = ["src"]

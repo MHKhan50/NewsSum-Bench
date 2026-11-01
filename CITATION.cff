@@ -5,7 +5,7 @@ authors:
   - family-names: Hussain
     given-names: Muzammal
 doi: 10.5281/zenodo.23264727
-repository-code: "https://github.com/MHKhan50/news-summarisation"
+repository-code: "https://github.com/MHKhan50/NewsSum-Bench"
 license: MIT
 keywords:
   - text summarisation

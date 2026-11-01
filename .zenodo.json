@@ -22,7 +22,7 @@
   ],
   "related_identifiers": [
     {
-      "identifier": "https://github.com/MHKhan50/news-summarisation",
+      "identifier": "https://github.com/MHKhan50/NewsSum-Bench",
       "relation": "isSupplementTo",
       "scheme": "url"
     },

@@ -82,6 +82,23 @@ def load(spec: ModelSpec, train: bool):
     return tok, model.to(dev)
 
 
+def fit_lengths(spec: ModelSpec, model) -> ModelSpec:
+    """Shrink max_source/max_target to what the model's position embeddings allow.
+
+    BART and PEGASUS have learned positions (1024), so longer inputs would index
+    past the embedding table. T5 uses relative positions and has no such limit.
+    """
+    from dataclasses import replace
+
+    limit = getattr(getattr(model, "config", None), "max_position_embeddings", None)
+    if not limit:
+        return spec
+    if spec.kind == "seq2seq":
+        return replace(spec, max_source=min(spec.max_source, limit), max_target=min(spec.max_target, limit))
+    room = max(16, limit - spec.max_target - 128)  # prompt template + summary must fit
+    return replace(spec, max_source=min(spec.max_source, room))
+
+
 # ---------------------------------------------------------------- prompts and encoding
 
 def build_prompt(tok, article: str, n_target_words: int, max_source: int) -> str:

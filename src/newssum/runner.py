@@ -158,6 +158,7 @@ def run_job(out: Path, job: Job, deadline: float, smoke: bool = False, save_mode
     engine.set_seed(job.seed)
     log(f"[{job.name}] {spec.hf_id} train={len(tr)} val={len(va)} test={len(te)}")
     tok, model = engine.load(spec, train=spec.finetune)
+    spec = engine.fit_lengths(spec, model)
     history = []
     if spec.finetune:
         tr_data = engine.encode(spec, tok, tr["article"].tolist(), tr["summary"].tolist(),

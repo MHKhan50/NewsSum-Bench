@@ -1,6 +1,6 @@
 # NewsSum V2: Transformers, a Small LLM and Extractive Baselines on BBC News Summary
 
-[![tests](https://github.com/MHKhan50/news-summarisation/actions/workflows/tests.yml/badge.svg)](https://github.com/MHKhan50/news-summarisation/actions/workflows/tests.yml)
+[![tests](https://github.com/MHKhan50/NewsSum-Bench/actions/workflows/tests.yml/badge.svg)](https://github.com/MHKhan50/NewsSum-Bench/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23264727.svg)](https://doi.org/10.5281/zenodo.23264727)
