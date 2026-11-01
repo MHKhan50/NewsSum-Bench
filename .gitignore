@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Data and large artefacts (data is downloaded, not committed)
+data/*
+!data/README.md
+*.pkl
+*.joblib
+*.ckpt
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Build artefacts
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# LaTeX build files
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk
+
+# Experiment outputs (results/ is committed separately after a run)
+/outputs/
+/newssum/
+/newssum_smoke/
+*.pt
+*.safetensors
+*.zip

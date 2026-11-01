@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "newssum"
+version = "2.0.0"
+description = "NewsSum V2: leakage-free comparison of extractive baselines, fine-tuned transformers and a small LLM on BBC News Summary"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Muzammal Hussain" }]
+requires-python = ">=3.10"
+dependencies = ["numpy", "pandas", "scipy", "scikit-learn", "matplotlib", "rouge-score"]
+
+[project.optional-dependencies]
+train = ["torch>=2.3", "transformers>=4.45", "peft>=0.12", "sentencepiece", "protobuf", "bert-score"]
+dev = ["pytest"]
+
+[project.urls]
+Repository = "https://github.com/MHKhan50/news-summarisation"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["smoke: end-to-end run with tiny Hugging Face models (needs torch and internet)"]

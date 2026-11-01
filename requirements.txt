@@ -1,4 +1,13 @@
-streamlit
-transformers
-nltk
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+rouge-score
+torch>=2.3
+transformers>=4.45
+peft>=0.12
 sentencepiece
+protobuf
+bert-score
+pytest

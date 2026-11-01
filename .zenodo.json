@@ -1,0 +1,35 @@
+{
+  "upload_type": "software",
+  "title": "NewsSum V2: Transformers, a Small LLM and Extractive Baselines on BBC News Summary (code, results and preprint)",
+  "creators": [
+    {
+      "name": "Hussain, Muzammal",
+      "affiliation": "Masmatix Innovations Ltd"
+    }
+  ],
+  "description": "<p>NewsSum V2 compares extractive baselines (Lead, TextRank and an extractive oracle), summarisers used zero-shot (BART-large-CNN, PEGASUS-CNN/DailyMail), fine-tuned encoder-decoder transformers (BART-base, BART-large, T5-base, Flan-T5-base, Flan-T5-large, PEGASUS-large) and a small instruction-tuned LLM (Qwen2.5-1.5B-Instruct, zero-shot and with LoRA) on the BBC News Summary dataset. Near-duplicate articles are removed before a fixed stratified split, model input excludes the headline, lengths are set without looking at the reference, and scores are reported over three seeds with bootstrap confidence intervals, paired comparisons, BERTScore and copying statistics. A data audit measures duplicate leakage under a naive split and how extractive and lead-biased the references are.</p><p>Version 2 replaces version 1, whose preprocessed file had the article and summary columns swapped; version 1 results should not be cited.</p><p>This record archives the Python package and tests, the Kaggle notebook, result tables and figures, and the preprint.</p>",
+  "license": "MIT",
+  "keywords": [
+    "text summarisation",
+    "abstractive summarisation",
+    "extractive summarisation",
+    "transformers",
+    "large language models",
+    "LoRA",
+    "ROUGE",
+    "data leakage",
+    "BBC News Summary"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/MHKhan50/news-summarisation",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://www.kaggle.com/datasets/pariza/bbc-news-summary",
+      "relation": "references",
+      "scheme": "url"
+    }
+  ]
+}

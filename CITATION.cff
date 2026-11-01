@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+title: "NewsSum V2: Transformers, a Small LLM and Extractive Baselines on BBC News Summary"
+authors:
+  - family-names: Hussain
+    given-names: Muzammal
+doi: 10.5281/zenodo.23264727
+repository-code: "https://github.com/MHKhan50/news-summarisation"
+license: MIT
+keywords:
+  - text summarisation
+  - abstractive summarisation
+  - extractive summarisation
+  - transformers
+  - large language models
+  - LoRA
+  - ROUGE
+  - data leakage
+version: 2.0.0
