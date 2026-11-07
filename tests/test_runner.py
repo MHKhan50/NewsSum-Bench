@@ -66,3 +66,20 @@ def test_oom_retry_halves_batch(tmp_path):
     assert json.loads((run_dir(tmp_path, j) / "overrides.json").read_text()) == first
     assert _smaller_batch(tmp_path, j, {"batch_size": 1, "grad_accum": 8, "eval_batch": 1}) is None
     assert _is_oom(RuntimeError("CUDA out of memory. Tried to allocate 52.00 MiB"))
+
+
+def test_prune_outputs_keeps_released_models_only(tmp_path):
+    from newssum.runner import prune_outputs
+    for m in ("bart-base", "t5-base", "flan-t5-base"):
+        (tmp_path / "models" / m).mkdir(parents=True)
+        (tmp_path / "models" / m / "model.safetensors").write_bytes(b"x" * 1000)
+    done = run_dir(tmp_path, Job("t5-base"))
+    (done / "ckpt").mkdir(parents=True)
+    (done / "ckpt" / "state.pt").write_bytes(b"x" * 1000)
+    (done / "result.json").write_text("{}")
+    running = run_dir(tmp_path, Job("flan-t5-large"))
+    (running / "ckpt").mkdir(parents=True)
+    (running / "ckpt" / "state.pt").write_bytes(b"x")
+    prune_outputs(tmp_path)
+    assert sorted(p.name for p in (tmp_path / "models").iterdir()) == ["bart-base"]
+    assert not (done / "ckpt").exists() and (running / "ckpt" / "state.pt").exists()

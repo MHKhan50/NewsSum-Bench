@@ -11,6 +11,7 @@ import json
 import math
 import os
 import random
+import shutil
 import time
 from pathlib import Path
 
@@ -237,7 +238,14 @@ def train(spec: ModelSpec, tok, model, train_data: list[dict], val_data: list[di
     scaler = torch.amp.GradScaler("cuda", enabled=use_fp16)
     st = {"epoch": 0, "batch": 0, "best_val": float("inf"), "best_epoch": -1, "bad": 0,
           "history": [], "done": False}
-    state_path, best_path = ckpt_dir / "state.pt", ckpt_dir / "best.pt"
+    # Disk budget: Kaggle keeps at most 20 GB of /kaggle/working. During a run the
+    # best weights live in a scratch folder outside it; the persistent checkpoint
+    # (weights + optimizer + best weights) is written only when the time limit stops
+    # the job, and is removed again as soon as a later session has loaded it.
+    scratch = _scratch_dir() / ckpt_dir.parent.name
+    scratch.mkdir(parents=True, exist_ok=True)
+    state_path, best_saved = ckpt_dir / "state.pt", ckpt_dir / "best.pt"
+    best_path = scratch / "best.pt"
     if state_path.exists():
         saved = torch.load(state_path, map_location="cpu", weights_only=False)
         _load_trainable(model, saved["model"], spec.lora)
@@ -245,12 +253,19 @@ def train(spec: ModelSpec, tok, model, train_data: list[dict], val_data: list[di
         sched.load_state_dict(saved["scheduler"])
         scaler.load_state_dict(saved["scaler"])
         st = saved["progress"]
+        del saved
+        if best_saved.exists():
+            shutil.copy2(best_saved, best_path)
+        shutil.rmtree(ckpt_dir, ignore_errors=True)
+        ckpt_dir.mkdir(parents=True, exist_ok=True)
         log(f"resumed at epoch {st['epoch']} batch {st['batch']}")
 
     def save_state() -> None:
         _atomic_save({"model": _trainable_state(model, spec.lora), "optimizer": opt.state_dict(),
                       "scheduler": sched.state_dict(), "scaler": scaler.state_dict(),
                       "progress": st}, state_path)
+        if best_path.exists():
+            shutil.copy2(best_path, best_saved)
 
     while not st["done"] and st["epoch"] < spec.epochs:
         epoch = st["epoch"]
@@ -295,13 +310,24 @@ def train(spec: ModelSpec, tok, model, train_data: list[dict], val_data: list[di
         if st["bad"] >= spec.patience:
             st["done"] = True
             log(f"early stopping, best epoch {st['best_epoch']}")
-        save_state()
         if time.time() > deadline and not st["done"] and st["epoch"] < spec.epochs:
+            save_state()
             log("time limit: saved checkpoint at end of epoch")
             raise DeadlineReached
 
     _load_trainable(model, torch.load(best_path, map_location="cpu", weights_only=False), spec.lora)
+    shutil.rmtree(scratch, ignore_errors=True)
     return st["history"]
+
+
+def _scratch_dir() -> Path:
+    env = os.environ.get("NEWSSUM_SCRATCH")
+    if env:
+        return Path(env)
+    if Path("/kaggle/temp").is_dir() or Path("/kaggle/working").is_dir():
+        return Path("/kaggle/temp/newssum_scratch")
+    import tempfile
+    return Path(tempfile.gettempdir()) / "newssum_scratch"
 
 
 # ---------------------------------------------------------------- generation

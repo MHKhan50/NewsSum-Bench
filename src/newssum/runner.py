@@ -25,7 +25,7 @@ import pandas as pd
 
 from . import __version__
 from .data import CATEGORIES, compression_ratio
-from .models import MAIN_ORDER, XCAT_MODEL, get_spec
+from .models import MAIN_ORDER, REGISTRY, XCAT_MODEL, get_spec
 from .text import n_words
 
 
@@ -83,6 +83,24 @@ def claim(out: Path, job: Job, worker: str) -> bool:
 
 def release(out: Path, job: Job) -> None:
     (run_dir(out, job) / ".claim").unlink(missing_ok=True)
+
+
+def prune_outputs(out: Path) -> float:
+    """Free space in the 20 GB output folder: drop saved weights of models that are
+    not released and leftover checkpoints of finished jobs. Returns GB freed."""
+    freed = 0
+    def _rm(path: Path) -> None:
+        nonlocal freed
+        freed += sum(f.stat().st_size for f in path.rglob("*") if f.is_file())
+        shutil.rmtree(path, ignore_errors=True)
+    for d in (out / "models").glob("*"):
+        spec = REGISTRY.get(d.name)
+        if d.is_dir() and (spec is None or not spec.release):
+            _rm(d)
+    for c in (out / "runs").glob("*/ckpt"):
+        if (c.parent / "result.json").exists():
+            _rm(c)
+    return freed / 1e9
 
 
 def clear_stale_claims(out: Path) -> int:
@@ -179,7 +197,7 @@ def run_job(out: Path, job: Job, deadline: float, smoke: bool = False, save_mode
     scores.insert(1, "category", te["category"].to_numpy())
     scores.to_csv(d / "scores.csv", index=False)
 
-    if save_models and spec.finetune and job.seed == 0 and job.setting == "main":
+    if save_models and spec.release and job.seed == 0 and job.setting == "main":
         engine.save_release(spec, tok, model, out / "models" / job.model,
                             {"model": job.model, "base": spec.hf_id, "seed": job.seed,
                              "newssum_version": __version__})
@@ -305,6 +323,9 @@ def launch(out: str | Path, jobs: list[Job], hours: float, n_gpus: int | None = 
     (out / "logs").mkdir(parents=True, exist_ok=True)
     if (out / "runs").exists():
         clear_stale_claims(out)
+    freed = prune_outputs(out)
+    if freed > 0.01:
+        print(f"freed {freed:.1f} GB in {out}")
     deadline = time.time() + hours * 3600
     if n_gpus is None:
         try:

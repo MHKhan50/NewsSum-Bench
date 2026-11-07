@@ -28,6 +28,7 @@ class ModelSpec:
     num_beams: int = 4
     est_minutes: float = 20.0     # rough T4 time per run, for scheduling
     save_fp16: bool = True        # store released weights in fp16
+    release: bool = False         # keep seed-0 weights for publishing (disk is limited)
     notes: str = ""
     extra: dict = field(default_factory=dict)
 
@@ -45,7 +46,7 @@ REGISTRY: dict[str, ModelSpec] = {s.key: s for s in [
               notes="zero-shot instruction-tuned LLM"),
     # Fine-tuned encoder-decoders.
     ModelSpec("bart-base", "facebook/bart-base", "seq2seq", family="BART", lr=5e-5, epochs=8,
-              batch_size=8, est_minutes=15),
+              batch_size=8, est_minutes=15, release=True),
     ModelSpec("t5-base", "google-t5/t5-base", "seq2seq", family="T5", prefix="summarize: ",
               lr=5e-4, optimizer="adafactor", fp16=False, batch_size=4, grad_accum=2,
               grad_ckpt=True, est_minutes=30, save_fp16=False),
@@ -56,14 +57,14 @@ REGISTRY: dict[str, ModelSpec] = {s.key: s for s in [
               batch_size=4, grad_accum=4, eval_batch=4, grad_ckpt=True, est_minutes=45),
     ModelSpec("pegasus-large", "google/pegasus-large", "seq2seq", family="PEGASUS", lr=2e-4,
               optimizer="adafactor", fp16=False, epochs=6, batch_size=2, grad_accum=8, eval_batch=4,
-              grad_ckpt=True, est_minutes=100),
+              grad_ckpt=True, est_minutes=100, release=True),
     ModelSpec("flan-t5-large", "google/flan-t5-large", "seq2seq", family="Flan-T5", prefix="summarize: ",
               lr=3e-4, optimizer="adafactor", fp16=False, epochs=6, batch_size=2, grad_accum=8,
               eval_batch=4, grad_ckpt=True, est_minutes=110, save_fp16=False),
     # Parameter-efficient fine-tuning of the same LLM.
     ModelSpec("qwen2.5-1.5b-lora", LLM_ID, "causal", family="Qwen2.5", lora=True, lr=2e-4, epochs=3,
               patience=1, max_source=1024, max_target=400, batch_size=2, grad_accum=8, eval_batch=8,
-              grad_ckpt=True, num_beams=1, est_minutes=90),
+              grad_ckpt=True, num_beams=1, est_minutes=90, release=True),
 ]}
 
 # Cheap jobs first so that a short session still produces useful results.
