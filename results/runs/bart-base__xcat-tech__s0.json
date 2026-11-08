@@ -1,0 +1,109 @@
+{
+  "job": "bart-base__xcat-tech__s0",
+  "model": "bart-base",
+  "setting": "xcat-tech",
+  "seed": 0,
+  "spec": {
+    "key": "bart-base",
+    "hf_id": "facebook/bart-base",
+    "kind": "seq2seq",
+    "finetune": true,
+    "family": "BART",
+    "prefix": "",
+    "max_source": 1024,
+    "max_target": 320,
+    "lr": 5e-05,
+    "epochs": 8,
+    "patience": 2,
+    "batch_size": 8,
+    "grad_accum": 1,
+    "eval_batch": 8,
+    "fp16": true,
+    "optimizer": "adamw",
+    "grad_ckpt": false,
+    "lora": false,
+    "num_beams": 4,
+    "est_minutes": 15,
+    "save_fp16": true,
+    "notes": ""
+  },
+  "n_train": 1223,
+  "n_val": 262,
+  "n_test": 49,
+  "ratio": 0.455188679245283,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.47303252973977256,
+      "val_loss": 0.2174714622561933,
+      "minutes": 1.0634017864863077
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.24687473105838875,
+      "val_loss": 0.1841329446696837,
+      "minutes": 1.0602004647254943
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.2060052744703355,
+      "val_loss": 0.17453289553196047,
+      "minutes": 1.0771858930587768
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.17438324794075846,
+      "val_loss": 0.17066258238945256,
+      "minutes": 1.0786892811457316
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.15149986461486692,
+      "val_loss": 0.16848086357836448,
+      "minutes": 1.0747403383255005
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.13799182992745068,
+      "val_loss": 0.16373610294963364,
+      "minutes": 1.080666188398997
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.12229955999874602,
+      "val_loss": 0.16513973397413162,
+      "minutes": 1.0746545553207398
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.11433633794289788,
+      "val_loss": 0.1620334943755415,
+      "minutes": 1.076041030883789
+    }
+  ],
+  "minutes_train": 9.33,
+  "minutes_generate": 0.42,
+  "mean": {
+    "rouge1": 67.1499,
+    "rouge2": 56.3501,
+    "rougeL": 44.4733,
+    "rougeLsum": 66.2787,
+    "words": 157.4898,
+    "coverage": 0.9967,
+    "density": 26.9006,
+    "novel_bigrams": 4.3148,
+    "numbers": 2.1633,
+    "unsupported_numbers": 0.0
+  },
+  "versions": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "rouge-score": "0.1.2",
+    "bert-score": "0.3.13",
+    "newssum": "2.0.0",
+    "gpu": "Tesla T4"
+  },
+  "smoke": false
+}

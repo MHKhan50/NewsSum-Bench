@@ -1,0 +1,13 @@
+item,value
+articles in the dataset,2225
+near-duplicate articles removed,154
+  of which exact duplicates,138
+  of which duplicated across categories,0
+articles used,2071
+train / validation / test,1449 / 311 / 311
+median article length (words),329
+median summary length (words),149
+median compression (summary/article words),0.454
+summary sentences found verbatim in article (%),94.8
+summaries that include the first sentence (%),73.7
+mean relative position of selected sentences,0.438

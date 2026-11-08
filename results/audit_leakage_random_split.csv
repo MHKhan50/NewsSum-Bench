@@ -1,0 +1,2 @@
+split,repeats,test_articles,mean_leaked,mean_leaked_pct
+random 85/15 without de-duplication,20,334,38.6,11.54

@@ -1,0 +1,91 @@
+{
+  "job": "flan-t5-base__main__s1",
+  "model": "flan-t5-base",
+  "setting": "main",
+  "seed": 1,
+  "spec": {
+    "key": "flan-t5-base",
+    "hf_id": "google/flan-t5-base",
+    "kind": "seq2seq",
+    "finetune": true,
+    "family": "Flan-T5",
+    "prefix": "summarize: ",
+    "max_source": 1024,
+    "max_target": 320,
+    "lr": 0.0005,
+    "epochs": 8,
+    "patience": 2,
+    "batch_size": 4,
+    "grad_accum": 2,
+    "eval_batch": 8,
+    "fp16": false,
+    "optimizer": "adafactor",
+    "grad_ckpt": true,
+    "lora": false,
+    "num_beams": 4,
+    "est_minutes": 30,
+    "save_fp16": false,
+    "notes": ""
+  },
+  "n_train": 1449,
+  "n_val": 311,
+  "n_test": 311,
+  "ratio": 0.455188679245283,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.2712409147792611,
+      "val_loss": 0.15788636474714543,
+      "minutes": 12.0945361216863
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.1835557194452312,
+      "val_loss": 0.1496696890576241,
+      "minutes": 11.922819232940673
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.14854479334817444,
+      "val_loss": 0.13812663937690103,
+      "minutes": 12.054066495100658
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.12341076476350632,
+      "val_loss": 0.1404428400892031,
+      "minutes": 12.070358153184255
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.10354194530483449,
+      "val_loss": 0.14277765729695308,
+      "minutes": 12.005551981925965
+    }
+  ],
+  "minutes_train": 60.51,
+  "minutes_generate": 6.12,
+  "mean": {
+    "rouge1": 62.2603,
+    "rouge2": 53.6079,
+    "rougeL": 47.0666,
+    "rougeLsum": 61.324,
+    "words": 99.4855,
+    "coverage": 0.9952,
+    "density": 26.6347,
+    "novel_bigrams": 3.6911,
+    "numbers": 2.164,
+    "unsupported_numbers": 0.0032
+  },
+  "versions": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "rouge-score": "0.1.2",
+    "bert-score": "0.3.13",
+    "newssum": "2.0.0",
+    "gpu": "Tesla T4"
+  },
+  "smoke": false
+}

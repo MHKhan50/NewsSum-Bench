@@ -1,0 +1,27 @@
+job,epochs_run,best_epoch,best_val_loss,minutes_train,minutes_generate,gpu
+bart-base__main__s0,8,6,0.1787,11.63,2.05,Tesla T4
+bart-base__main__s1,7,5,0.1807,10.08,2.06,Tesla T4
+bart-base__main__s2,8,8,0.1828,11.43,2.19,Tesla T4
+bart-base__xcat-business__s0,8,8,0.19,9.06,0.45,Tesla T4
+bart-base__xcat-entertainment__s0,8,7,0.1953,9.6,0.34,Tesla T4
+bart-base__xcat-politics__s0,8,6,0.2048,9.25,0.51,Tesla T4
+bart-base__xcat-sport__s0,8,6,0.1861,9.01,0.53,Tesla T4
+bart-base__xcat-tech__s0,8,8,0.162,9.33,0.42,Tesla T4
+bart-large__main__s0,6,5,0.1435,24.22,6.26,Tesla T4
+bart-large__main__s1,6,6,0.1436,26.3,6.76,Tesla T4
+bart-large__main__s2,6,5,0.1446,23.52,5.7,Tesla T4
+flan-t5-base__main__s0,6,4,0.1354,72.35,6.97,Tesla T4
+flan-t5-base__main__s1,5,3,0.1381,60.51,6.12,Tesla T4
+flan-t5-base__main__s2,5,3,0.1343,60.69,6.65,Tesla T4
+flan-t5-large__main__s0,5,3,0.1131,182.01,20.86,Tesla T4
+flan-t5-large__main__s1,6,4,0.1131,192.32,20.98,Tesla T4
+flan-t5-large__main__s2,5,3,0.112,186.36,17.77,Tesla T4
+pegasus-large__main__s0,6,6,0.1348,96.84,14.54,Tesla T4
+pegasus-large__main__s1,6,6,0.135,96.65,14.53,Tesla T4
+pegasus-large__main__s2,6,6,0.137,97.44,14.32,Tesla T4
+qwen2.5-1.5b-lora__main__s0,3,3,0.1242,67.85,26.18,Tesla T4
+qwen2.5-1.5b-lora__main__s1,3,3,0.1245,68.38,26.12,Tesla T4
+qwen2.5-1.5b-lora__main__s2,3,3,0.1248,67.94,25.05,Tesla T4
+t5-base__main__s0,6,4,0.1379,67.68,7.02,Tesla T4
+t5-base__main__s1,6,4,0.1409,68.05,6.39,Tesla T4
+t5-base__main__s2,5,3,0.1346,56.41,7.28,Tesla T4

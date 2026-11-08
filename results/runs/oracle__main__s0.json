@@ -1,0 +1,21 @@
+{
+  "job": "oracle__main__s0",
+  "model": "oracle",
+  "setting": "main",
+  "seed": 0,
+  "n_test": 311,
+  "ratio": 0.455188679245283,
+  "mean": {
+    "rouge1": 99.862,
+    "rouge2": 96.9504,
+    "rougeL": 58.2003,
+    "rougeLsum": 99.8003,
+    "words": 177.537,
+    "coverage": 1.0,
+    "density": 48.1308,
+    "novel_bigrams": 2.0367,
+    "numbers": 3.2251,
+    "unsupported_numbers": 0.0
+  },
+  "smoke": false
+}

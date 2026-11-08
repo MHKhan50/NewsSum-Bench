@@ -1,0 +1,6 @@
+category,articles,article_words,summary_words,compression,verbatim_pct,first_sentence_pct
+business,500,295.0,134.0,0.45,95.82,78.8
+entertainment,364,261.0,124.0,0.457,94.323,80.22
+politics,394,440.5,194.5,0.452,92.129,66.244
+sport,489,285.0,131.0,0.465,95.649,75.46
+tech,324,459.5,206.0,0.446,95.469,65.123
