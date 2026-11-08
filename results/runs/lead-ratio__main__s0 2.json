@@ -1,0 +1,21 @@
+{
+  "job": "lead-ratio__main__s0",
+  "model": "lead-ratio",
+  "setting": "main",
+  "seed": 0,
+  "n_test": 311,
+  "ratio": 0.455188679245283,
+  "mean": {
+    "rouge1": 64.0234,
+    "rouge2": 50.5005,
+    "rougeL": 40.4786,
+    "rougeLsum": 62.6862,
+    "words": 178.717,
+    "coverage": 1.0,
+    "density": 178.717,
+    "novel_bigrams": 0.0,
+    "numbers": 3.4437,
+    "unsupported_numbers": 0.0
+  },
+  "smoke": false
+}

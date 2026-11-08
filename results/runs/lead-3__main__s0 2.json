@@ -1,0 +1,21 @@
+{
+  "job": "lead-3__main__s0",
+  "model": "lead-3",
+  "setting": "main",
+  "seed": 0,
+  "n_test": 311,
+  "ratio": 0.455188679245283,
+  "mean": {
+    "rouge1": 43.9913,
+    "rouge2": 35.434,
+    "rougeL": 34.2306,
+    "rougeLsum": 42.957,
+    "words": 61.6077,
+    "coverage": 1.0,
+    "density": 61.6077,
+    "novel_bigrams": 0.0,
+    "numbers": 1.6559,
+    "unsupported_numbers": 0.0
+  },
+  "smoke": false
+}

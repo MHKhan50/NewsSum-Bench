@@ -1,0 +1,97 @@
+{
+  "job": "flan-t5-base__main__s0",
+  "model": "flan-t5-base",
+  "setting": "main",
+  "seed": 0,
+  "spec": {
+    "key": "flan-t5-base",
+    "hf_id": "google/flan-t5-base",
+    "kind": "seq2seq",
+    "finetune": true,
+    "family": "Flan-T5",
+    "prefix": "summarize: ",
+    "max_source": 1024,
+    "max_target": 320,
+    "lr": 0.0005,
+    "epochs": 8,
+    "patience": 2,
+    "batch_size": 4,
+    "grad_accum": 2,
+    "eval_batch": 8,
+    "fp16": false,
+    "optimizer": "adafactor",
+    "grad_ckpt": true,
+    "lora": false,
+    "num_beams": 4,
+    "est_minutes": 30,
+    "save_fp16": false,
+    "notes": ""
+  },
+  "n_train": 1449,
+  "n_val": 311,
+  "n_test": 311,
+  "ratio": 0.455188679245283,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.2981572982652457,
+      "val_loss": 0.15634523716391652,
+      "minutes": 12.151917922496796
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.18437725215247183,
+      "val_loss": 0.15298522621888064,
+      "minutes": 11.881199252605438
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.1486263195919925,
+      "val_loss": 0.13915799015281188,
+      "minutes": 11.877319272359212
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.12693563450548603,
+      "val_loss": 0.13537147460422985,
+      "minutes": 11.916680550575256
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.10358246212655847,
+      "val_loss": 0.1419198619805065,
+      "minutes": 11.918760701020558
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.08908783041002337,
+      "val_loss": 0.13870515101321398,
+      "minutes": 11.976902937889099
+    }
+  ],
+  "minutes_train": 72.35,
+  "minutes_generate": 6.97,
+  "mean": {
+    "rouge1": 65.4187,
+    "rouge2": 57.1966,
+    "rougeL": 48.3688,
+    "rougeLsum": 64.6523,
+    "words": 113.2572,
+    "coverage": 0.9925,
+    "density": 25.3155,
+    "novel_bigrams": 4.7422,
+    "numbers": 2.5241,
+    "unsupported_numbers": 0.0096
+  },
+  "versions": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "rouge-score": "0.1.2",
+    "bert-score": "0.3.13",
+    "newssum": "2.0.0",
+    "gpu": "Tesla T4"
+  },
+  "smoke": false
+}
