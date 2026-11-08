@@ -4,7 +4,7 @@ title: "NewsSum V2: Transformers, a Small LLM and Extractive Baselines on BBC Ne
 authors:
   - family-names: Hussain
     given-names: Muzammal
-doi: 10.5281/zenodo.23264727
+doi: 10.5281/zenodo.24046039
 repository-code: "https://github.com/MHKhan50/NewsSum-Bench"
 license: MIT
 keywords:

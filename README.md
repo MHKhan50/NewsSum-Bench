@@ -3,7 +3,7 @@
 [![tests](https://github.com/MHKhan50/NewsSum-Bench/actions/workflows/tests.yml/badge.svg)](https://github.com/MHKhan50/NewsSum-Bench/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23264727.svg)](https://doi.org/10.5281/zenodo.23264727)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24046039.svg)](https://doi.org/10.5281/zenodo.24046039)
 
 **Main finding:** a length-matched TextRank, which needs no training, scored
 82.9 ROUGE-Lsum on the test set. The best fine-tuned model, PEGASUS-large,
@@ -185,7 +185,7 @@ data/          data instructions (the dataset is not redistributed here)
 ## Citation
 
 Hussain, M. (2026). *NewsSum V2: Transformers, a Small LLM and Extractive
-Baselines on BBC News Summary*. Zenodo. https://doi.org/10.5281/zenodo.23264727
+Baselines on BBC News Summary*. Zenodo. https://doi.org/10.5281/zenodo.24046039
 
 See also [`CITATION.cff`](CITATION.cff). Please also cite the dataset:
 

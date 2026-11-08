@@ -21,7 +21,7 @@ metrics:
 PEGASUS-large fine-tuned for news summarisation on the BBC News Summary dataset, as part of **NewsSum V2**, a leakage-free comparison of extractive baselines, fine-tuned transformers and a small LLM. This is the seed-0 model from the study.
 
 - Code, results and Kaggle notebook: [github.com/MHKhan50/NewsSum-Bench](https://github.com/MHKhan50/NewsSum-Bench)
-- Paper: *When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary* (Zenodo, [doi:10.5281/zenodo.23264727](https://doi.org/10.5281/zenodo.23264727))
+- Paper: *When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary* (Zenodo, [doi:10.5281/zenodo.24046039](https://doi.org/10.5281/zenodo.24046039))
 - Author: Muzammal Hussain
 
 ## Results on the 311 test articles (this checkpoint)
@@ -71,7 +71,7 @@ Fully fine-tuned with Adafactor (learning rate 2e-4, effective batch 16, linear 
   author = {Hussain, Muzammal},
   title  = {When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary},
   year   = {2026},
-  doi    = {10.5281/zenodo.23264727},
+  doi    = {10.5281/zenodo.24046039},
   url    = {https://github.com/MHKhan50/NewsSum-Bench}
 }
 ```
