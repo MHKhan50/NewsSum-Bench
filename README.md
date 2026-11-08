@@ -126,6 +126,17 @@ Files in [`results/`](results): `main.csv` (all metrics), `by_category.csv`,
 `per_document_scores.csv.gz`, the fixed split (`splits.csv`), one JSON per run
 in `runs/`, and the figures. Compute: two Kaggle sessions on 2 × T4 GPUs (about 18 hours wall-clock, 31 GPU-hours of training and generation).
 
+## Models and demo
+
+- Browser demo (TextRank and BART-base side by side, runs locally in the browser):
+  [huggingface.co/spaces/MHkhan50/newssum-demo](https://huggingface.co/spaces/MHkhan50/newssum-demo)
+- [PEGASUS-large](https://huggingface.co/MHkhan50/newssum-pegasus-large-bbc), the best fine-tuned model
+- [BART-base](https://huggingface.co/MHkhan50/newssum-bart-base-bbc), with a quantised ONNX copy for Transformers.js
+- [Qwen2.5-1.5B-Instruct LoRA adapter](https://huggingface.co/MHkhan50/newssum-qwen2.5-1.5b-lora-bbc)
+
+All three are the seed-0 checkpoints from the study. They were published with
+[`notebooks/publish_huggingface.ipynb`](notebooks/publish_huggingface.ipynb).
+
 ## Run it
 
 **On Kaggle (recommended).** The run behind these results is public:
