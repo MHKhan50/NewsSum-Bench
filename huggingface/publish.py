@@ -65,8 +65,15 @@ def publish_folder(api: HfApi, user: str, key: str, folder: Path, extra: Path | 
 
 
 EXPORT = textwrap.dedent('''
-    import shutil, sys
+    import importlib.util, shutil, sys
     from pathlib import Path
+
+    # Kaggle ships diffusers built for a newer huggingface_hub; optimum imports it
+    # if it is present. Hide it: the export below does not need it.
+    _find_spec = importlib.util.find_spec
+    importlib.util.find_spec = lambda name, *a, **k: (
+        None if name.split(".")[0] == "diffusers" else _find_spec(name, *a, **k))
+    sys.modules["diffusers"] = None
     import torch
     from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
