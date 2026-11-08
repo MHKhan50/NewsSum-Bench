@@ -70,10 +70,13 @@ EXPORT = textwrap.dedent('''
 
     # Kaggle ships diffusers built for a newer huggingface_hub; optimum imports it
     # if it is present. Hide it: the export below does not need it.
+    # Packages built for the newer system PyTorch are hidden as well.
+    HIDE = {"diffusers", "torchvision", "torchaudio", "timm", "torchao"}
     _find_spec = importlib.util.find_spec
     importlib.util.find_spec = lambda name, *a, **k: (
-        None if name.split(".")[0] == "diffusers" else _find_spec(name, *a, **k))
-    sys.modules["diffusers"] = None
+        None if name.split(".")[0] in HIDE else _find_spec(name, *a, **k))
+    for _m in HIDE:
+        sys.modules[_m] = None
     import torch
     from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
@@ -117,6 +120,9 @@ def export_bart(src: Path) -> Path:
     py = VENV / "bin" / "python"
     if not py.exists():
         run([sys.executable, "-m", "venv", "--system-site-packages", "--without-pip", str(VENV)])
+    # optimum 1.x does not support the newest PyTorch; use a CPU build it knows.
+    run([str(py), "-m", "pip", "install", "-q", "torch==2.6.0", "--index-url",
+         "https://download.pytorch.org/whl/cpu"])
     run([str(py), "-m", "pip", "install", "-q", "optimum[onnxruntime]<2",
          "transformers>=4.40,<4.56", "huggingface_hub<1.0", "onnx", "onnxruntime"])
     script = WORK / "export_bart.py"

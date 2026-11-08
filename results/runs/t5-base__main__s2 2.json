@@ -1,0 +1,91 @@
+{
+  "job": "t5-base__main__s2",
+  "model": "t5-base",
+  "setting": "main",
+  "seed": 2,
+  "spec": {
+    "key": "t5-base",
+    "hf_id": "google-t5/t5-base",
+    "kind": "seq2seq",
+    "finetune": true,
+    "family": "T5",
+    "prefix": "summarize: ",
+    "max_source": 1024,
+    "max_target": 320,
+    "lr": 0.0005,
+    "epochs": 8,
+    "patience": 2,
+    "batch_size": 4,
+    "grad_accum": 2,
+    "eval_batch": 8,
+    "fp16": false,
+    "optimizer": "adafactor",
+    "grad_ckpt": true,
+    "lora": false,
+    "num_beams": 4,
+    "est_minutes": 30,
+    "save_fp16": false,
+    "notes": ""
+  },
+  "n_train": 1449,
+  "n_val": 311,
+  "n_test": 311,
+  "ratio": 0.455188679245283,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.8719162774315878,
+      "val_loss": 0.1603900658606761,
+      "minutes": 11.25622102022171
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.18331439304614527,
+      "val_loss": 0.13856231308737502,
+      "minutes": 11.123911241690317
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.14818959469719695,
+      "val_loss": 0.13464880949730132,
+      "minutes": 11.13881067832311
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.1178771224560488,
+      "val_loss": 0.13843122886519907,
+      "minutes": 11.196834409236908
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.09576688208116972,
+      "val_loss": 0.14706613891322726,
+      "minutes": 11.226897529760997
+    }
+  ],
+  "minutes_train": 56.41,
+  "minutes_generate": 7.28,
+  "mean": {
+    "rouge1": 67.8198,
+    "rouge2": 58.4115,
+    "rougeL": 48.0606,
+    "rougeLsum": 66.9365,
+    "words": 127.3376,
+    "coverage": 0.9896,
+    "density": 24.6548,
+    "novel_bigrams": 5.4042,
+    "numbers": 2.8006,
+    "unsupported_numbers": 0.0064
+  },
+  "versions": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "transformers": "5.16.1",
+    "peft": "0.20.0",
+    "rouge-score": "0.1.2",
+    "bert-score": "0.3.13",
+    "newssum": "2.0.0",
+    "gpu": "Tesla T4"
+  },
+  "smoke": false
+}
