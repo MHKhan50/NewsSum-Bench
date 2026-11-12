@@ -17,8 +17,10 @@ NAMES = {"oracle": "Extractive oracle (upper bound)", "textrank-ratio": "TextRan
          "flan-t5-large": "Flan-T5-large", "lead-ratio": "Lead, length-matched", "lead-3": "Lead-3",
          "qwen2.5-1.5b-zs": "Qwen2.5-1.5B (zero-shot)", "bart-large-cnn": "BART-large-CNN (zero-shot)",
          "pegasus-cnn": "PEGASUS-CNN (zero-shot)"}
-COL = {"extractive baseline": "#8a94a6", "extractive oracle (upper bound)": "#c9ced8", "zero-shot": "#e69f00",
-       "fine-tuned": "#1f4fd1", "fine-tuned (LoRA)": "#0f9d7a"}
+# House palette: blue, yellow, red, light green; grey for baselines and the oracle
+BLUE, YELLOW, RED, GREEN = "#1F4E9C", "#E3A800", "#C8102E", "#5FA65A"
+COL = {"extractive baseline": "#8a94a6", "extractive oracle (upper bound)": "#c9ced8", "zero-shot": YELLOW,
+       "fine-tuned": BLUE, "fine-tuned (LoRA)": GREEN}
 LABEL = {"extractive baseline": "Extractive baseline", "extractive oracle (upper bound)": "Extractive oracle",
          "zero-shot": "Zero-shot", "fine-tuned": "Fine-tuned", "fine-tuned (LoRA)": "Fine-tuned with LoRA"}
 plt.rcParams.update({"font.size": 9.5, "axes.spines.top": False, "axes.spines.right": False})
@@ -48,7 +50,7 @@ def main():
 
     p = pd.read_csv(RES / "audit_selection_by_position.csv")
     fig, ax = plt.subplots(figsize=(6.0, 3.0))
-    ax.bar(p.decile * 10 + 5, p.selected_pct, width=8.6, color="#1f4fd1")
+    ax.bar(p.decile * 10 + 5, p.selected_pct, width=8.6, color=BLUE)
     for x, v in zip(p.decile * 10 + 5, p.selected_pct):
         ax.text(x, v + 1, f"{v:.0f}%", ha="center", fontsize=7.5)
     ax.set_xticks(range(0, 101, 10))

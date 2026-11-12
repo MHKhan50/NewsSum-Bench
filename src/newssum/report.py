@@ -153,8 +153,8 @@ def figures(main: pd.DataFrame, fig_dir: Path, out: Path) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    colours = {"extractive baseline": "#8c8c8c", "extractive oracle (upper bound)": "#c9c9c9",
-               "zero-shot": "#e69f00", "fine-tuned": "#0072b2", "fine-tuned (LoRA)": "#009e73"}
+    colours = {"extractive baseline": "#8a94a6", "extractive oracle (upper bound)": "#c9ced8",
+               "zero-shot": "#E3A800", "fine-tuned": "#1F4E9C", "fine-tuned (LoRA)": "#5FA65A"}
     t = main.sort_values("rougeLsum")
     fig, ax = plt.subplots(figsize=(7, 0.38 * len(t) + 1))
     err = np.vstack([t["rougeLsum"] - t["rougeLsum_lo"], t["rougeLsum_hi"] - t["rougeLsum"]])
@@ -186,7 +186,7 @@ def figures(main: pd.DataFrame, fig_dir: Path, out: Path) -> None:
     if pos_path.exists():
         pos = pd.read_csv(pos_path)
         fig, ax = plt.subplots(figsize=(5, 3))
-        ax.bar(pos["decile"] * 10 + 5, pos["selected_pct"], width=9, color="#0072b2")
+        ax.bar(pos["decile"] * 10 + 5, pos["selected_pct"], width=9, color="#1F4E9C")
         ax.set_xlabel("position of sentence in article (%)")
         ax.set_ylabel("sentences in reference (%)")
         fig.tight_layout()
