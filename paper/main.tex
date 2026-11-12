@@ -9,6 +9,7 @@
 \usepackage{siunitx}
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary},pdfauthor={Muzammal Hussain}}
 \usepackage{xcolor}
 \usepackage{caption}
 \captionsetup{font=small,labelfont=bf}
@@ -17,9 +18,9 @@
 \title{When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary}
 \author{Muzammal Hussain\\
 \small Independent researcher, Glasgow, United Kingdom\\
-\small \href{mailto:muzammal@masmatixinnovations.co.uk}{muzammal@masmatixinnovations.co.uk} \quad
-ORCID \href{https://orcid.org/0009-0001-2570-5686}{0009-0001-2570-5686}}
-\date{November 2026}
+\small \href{mailto:muzammal@masmatixinnovations.co.uk}{muzammal@masmatixinnovations.co.uk}\\
+\small ORCID: \href{https://orcid.org/0009-0001-2570-5686}{0009-0001-2570-5686}}
+\date{\small Preprint, November 2026}
 
 \setlength{\emergencystretch}{2em}
 \begin{document}
@@ -182,7 +183,7 @@ The dataset is small (2,071 articles after de-duplication), from one publisher a
 A training-free, length-matched TextRank outscores seven fine-tuned transformers, including a LoRA-tuned 1.5B LLM, on BBC News Summary, by 10 ROUGE-Lsum points over the best of them. The references are extracted sentences, about 45\% of each article, chosen in a way that TextRank's centrality ranking approximates. Results on this dataset should be read as agreement with that selection rule and reported against a length-matched TextRank baseline on a de-duplicated split.
 
 \section*{Code and data availability}
-Code (a tested Python package), the fixed split, all result tables, per-document scores and run records are available at \url{https://github.com/MHKhan50/NewsSum-Bench} and archived on Zenodo (doi:\href{https://doi.org/10.5281/zenodo.24046039}{10.5281/zenodo.24046039}) \cite{hussain2026newssum}. The full Kaggle run is public at \url{https://www.kaggle.com/code/muzammalhussain11/newssum-v2-bbc-news-summarisation-benchmark}. The BBC articles are not redistributed.
+Code (a tested Python package), the fixed split, all result tables, per-document scores and run records are available at \url{https://github.com/MHKhan50/NewsSum-Bench} and archived on Zenodo (doi:\href{https://doi.org/10.5281/zenodo.24046039}{10.5281/zenodo.24046039}) \cite{hussain2026newssum}. The full Kaggle run is public at \url{https://www.kaggle.com/code/muzammalhussain11/newssum-v2-bbc-news-summarisation-benchmark}. The seed-0 PEGASUS-large, BART-base and Qwen2.5-1.5B LoRA checkpoints are on Hugging Face (\url{https://huggingface.co/MHkhan50}), with a browser demo that runs TextRank and BART-base side by side (\url{https://huggingface.co/spaces/MHkhan50/newssum-demo}). The BBC articles are not redistributed.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
