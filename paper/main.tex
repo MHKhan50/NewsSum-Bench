@@ -33,7 +33,7 @@ BBC News Summary is a small, widely used dataset for teaching and comparing text
 \section{Introduction}
 Summarisation benchmarks are only as informative as their references. Large news corpora such as CNN/DailyMail \cite{hermann2015cnndm} and Newsroom \cite{grusky2018newsroom} are known to reward copying and lead position \cite{kryscinski2019critical,jung2019earlier}, and automatic metrics track human judgement only partly \cite{fabbri2021summeval}. Smaller datasets receive less scrutiny. BBC News Summary \cite{pariza2018bbcsum}, built on the BBC articles of \citet{greene2006bbc}, pairs 2,225 articles from 2004--2005 with one summary each and is a common choice in coursework, tutorials and applied papers, often to compare fine-tuned transformers.
 
-This study began as a rebuild of an earlier project of the author's that fine-tuned five transformers on this dataset. A code review found that the earlier pipeline had trained on swapped columns (summary in, article out), reversed the ROUGE arguments and evaluated on rows that overlapped training. Its scores were withdrawn. Rather than repeat the comparison, we first asked what the references are, and then compared models under a protocol designed to avoid those errors.
+We first ask what the references are, and then compare models under a protocol that keeps training and test articles apart, scores every system the same way and reports uncertainty.\footnote{This study replaces an earlier project of the author's on the same dataset, whose pipeline had swapped the input and target columns, reversed the ROUGE arguments and evaluated on rows that overlapped training; its scores were withdrawn.}
 
 Our contributions are:
 \begin{enumerate}
