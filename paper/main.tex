@@ -45,6 +45,8 @@ Our contributions are:
 \section{Related work}
 \citet{kryscinski2019critical} showed that common news benchmarks are dominated by layout bias and that ROUGE rewards extractive overlap; \citet{jung2019earlier} quantified position, diversity and importance biases across corpora; \citet{grusky2018newsroom} introduced coverage, density and compression to describe how extractive a summary is, which we use here. SummEval \cite{fabbri2021summeval} re-evaluated metrics against human ratings. With instruction-tuned LLMs, \citet{goyal2022gpt3} and \citet{zhang2024benchmarking} found that reference summaries in standard datasets are often worse than model outputs as judged by people, so reference-based scores can mislead. Faithfulness concerns for abstractive models are surveyed by \citet{maynez2020faithfulness}. Duplicate removal before splitting is standard advice in language-model training \cite{lee2022dedup} but is rarely reported for small summarisation datasets. We are not aware of a published audit of how the BBC News Summary references were built.
 
+A leakage audit of another widely used benchmark, the UCI heart disease data, is given in \cite{hussain2026heart}.
+
 \section{Dataset audit}\label{sec:audit}
 \paragraph{Data.} Each article file starts with its headline, followed by the body; each summary file contains sentences from the body, concatenated without spaces between them. We repaired sentence boundaries (inserting a space after sentence-final punctuation followed by a capital letter, preserving decimals and initialisms), removed the headline from model inputs, and split text into sentences with an abbreviation-aware rule.
 

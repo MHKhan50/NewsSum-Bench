@@ -195,6 +195,17 @@ data/          data instructions (the dataset is not redistributed here)
 
 ## Citation
 
+```bibtex
+@misc{hussain2026newssum,
+  author    = {Hussain, Muzammal},
+  title     = {{When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary}},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.24046039},
+  url       = {https://doi.org/10.5281/zenodo.24046039}
+}
+```
+
 Hussain, M. (2026). *NewsSum V2: Transformers, a Small LLM and Extractive
 Baselines on BBC News Summary*. Zenodo. https://doi.org/10.5281/zenodo.24046039
 
