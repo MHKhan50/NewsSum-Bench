@@ -27,8 +27,17 @@ FILES = ("encoder_model_quantized.onnx", "decoder_model_merged_quantized.onnx")
 LIMIT_MB = 250
 
 CHECK = '''
-import sys
+import importlib.util, sys
 from pathlib import Path
+
+# Same guard as the export step: hide Kaggle packages built for the newer PyTorch,
+# otherwise optimum tries to import image processors and fails.
+HIDE = {"diffusers", "torchvision", "torchaudio", "timm", "torchao"}
+_find_spec = importlib.util.find_spec
+importlib.util.find_spec = lambda name, *a, **k: (
+    None if name.split(".")[0] in HIDE else _find_spec(name, *a, **k))
+for _m in HIDE:
+    sys.modules[_m] = None
 from optimum.onnxruntime import ORTModelForSeq2SeqLM
 from transformers import AutoTokenizer
 d = Path(sys.argv[1])
