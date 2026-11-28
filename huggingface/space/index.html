@@ -39,7 +39,7 @@
   <div class="row">
     <button id="run">Summarise</button>
     <button id="example" class="alt">Load an example</button>
-    <span class="status" id="status">The BART model (about 150 MB) downloads the first time you press Summarise.</span>
+    <span class="status" id="status">TextRank is instant. The BART model (about 150 MB) downloads once, then your browser keeps it.</span>
   </div>
 
   <div class="grid">
@@ -147,24 +147,48 @@ The services sector, which makes up about three quarters of the economy, was the
 However, some economists warned that growth was likely to slow this year as higher interest rates hit consumer spending. The Bank of England raised rates five times last year to 4.75%. House prices have also started to cool, and retail sales over Christmas were weaker than in previous years. "We expect growth to ease back to around 2.5% this year," said one economist.`;
 
 const $ = id => document.getElementById(id);
-let summariser = null;
-$("example").onclick = () => { $("article").value = EXAMPLE; };
+let summariser = null, loading = null, lastTick = 0;
+const files = {};
+
+function showProgress() {
+  const all = Object.values(files);
+  const got = all.reduce((n, f) => n + f.loaded, 0) / 1e6, total = all.reduce((n, f) => n + f.total, 0) / 1e6;
+  $("status").textContent = `Downloading the BART model (first visit only): ${got.toFixed(0)} of ${total.toFixed(0)} MB`;
+}
+
+// Start the one-time download as soon as the visitor shows interest, not only when they press Summarise.
+function loadModel() {
+  if (loading) return loading;
+  lastTick = Date.now();
+  const watch = setInterval(() => {
+    if (!summariser && Date.now() - lastTick > 30000)
+      $("status").textContent = "The model download is slow on this connection. TextRank works already; BART will follow, or reload the page to retry.";
+  }, 5000);
+  loading = (async () => {
+    const { pipeline, env } = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3");
+    env.allowLocalModels = false;
+    summariser = await pipeline("summarization", MODEL, {
+      dtype: "q8",
+      progress_callback: p => {
+        if (p.status === "progress" && p.total) { files[p.file] = { loaded: p.loaded, total: p.total }; lastTick = Date.now(); showProgress(); }
+      },
+    });
+    $("status").textContent = "BART model ready.";
+    return summariser;
+  })().catch(e => { loading = null; throw e; }).finally(() => clearInterval(watch));
+  return loading;
+}
+
+$("example").onclick = () => { $("article").value = EXAMPLE; loadModel().catch(() => {}); };
+$("article").addEventListener("focus", () => loadModel().catch(() => {}), { once: true });
 $("run").onclick = async () => {
   const text = $("article").value.trim();
   if (!text) { $("status").textContent = "Paste an article first."; return; }
   $("run").disabled = true;
   $("tr").textContent = textrank(text);
-  $("bart").textContent = "";
+  $("bart").textContent = summariser ? "" : "TextRank is done. BART will appear here once its model has downloaded.";
   try {
-    if (!summariser) {
-      $("status").textContent = "Loading the BART model…";
-      const { pipeline, env } = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3");
-      env.allowLocalModels = false;
-      summariser = await pipeline("summarization", MODEL, {
-        dtype: "q8",
-        progress_callback: p => { if (p.status === "progress" && p.total) $("status").textContent = `Downloading model: ${Math.round(100 * p.loaded / p.total)}%`; },
-      });
-    }
+    await loadModel();
     $("status").textContent = "Summarising with BART…";
     const t0 = performance.now();
     const [out] = await summariser(text, { max_new_tokens: 320, num_beams: 1, no_repeat_ngram_size: 3 });
