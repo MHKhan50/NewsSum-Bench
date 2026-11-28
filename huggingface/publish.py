@@ -97,7 +97,10 @@ EXPORT = textwrap.dedent('''
         f = onnx_dir / f"{name}.onnx"
         if not f.exists():
             sys.exit(f"{f.name} was not exported")
-        quantize_dynamic(str(f), str(out / f"{name}_quantized.onnx"), weight_type=QuantType.QInt8)
+        # The merged decoder keeps its layers inside If-branches; without EnableSubgraph
+        # those weights stay float32 and the browser download is about four times larger.
+        quantize_dynamic(str(f), str(out / f"{name}_quantized.onnx"), weight_type=QuantType.QInt8,
+                         extra_options={"EnableSubgraph": True})
     for p in sorted(out.iterdir()):
         print(p.name, f"{p.stat().st_size / 1e6:.0f} MB")
 
