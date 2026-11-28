@@ -21,7 +21,8 @@ metrics:
 Qwen2.5-1.5B-Instruct with LoRA fine-tuned for news summarisation on the BBC News Summary dataset, as part of **NewsSum V2**, a leakage-free comparison of extractive baselines, fine-tuned transformers and a small LLM. This is the seed-0 model from the study.
 
 - Code, results and Kaggle notebook: [github.com/MHKhan50/NewsSum-Bench](https://github.com/MHKhan50/NewsSum-Bench)
-- Paper: *When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary* (Zenodo, [doi:10.5281/zenodo.24046039](https://doi.org/10.5281/zenodo.24046039))
+- Paper: *When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary* (Zenodo, [doi:10.5281/zenodo.24136873](https://doi.org/10.5281/zenodo.24136873))
+- Software (code, notebooks, results): [doi:10.5281/zenodo.24046039](https://doi.org/10.5281/zenodo.24046039)
 - Author: Muzammal Hussain
 
 ## Results on the 311 test articles (this checkpoint)
@@ -75,7 +76,8 @@ LoRA adapter (rank 16, alpha 32, dropout 0.05, all linear layers) trained for 3 
   author = {Hussain, Muzammal},
   title  = {When the Reference Is Extracted: TextRank Outscores Fine-Tuned Transformers and a Small LLM on BBC News Summary},
   year   = {2026},
-  doi    = {10.5281/zenodo.24046039},
-  url    = {https://github.com/MHKhan50/NewsSum-Bench}
+  publisher = {Zenodo},
+  doi    = {10.5281/zenodo.24136873},
+  url    = {https://doi.org/10.5281/zenodo.24136873}
 }
 ```
